@@ -8,7 +8,7 @@
     client_secret: "{{ lookup('ansible.builtin.env', 'PASSWORD_SAFE_CLIENT_SECRET') }}"
 
     # Retrieve managed accounts (format: system_name/account_name)
-    managed_accounts_to_get: "Ansible/ansible_password01"
+    managed_accounts_to_get: "MANAGED_SYSTEM_NAME/MANAGED_ACCOUNT"
     got_managed_accounts: "{{ lookup('beyondtrust.secrets_safe.secrets_safe_lookup',
         api_url=api_url,
         retrieval_type='MANAGED_ACCOUNT',
@@ -18,7 +18,7 @@
         wantlist=False) }}"
 
     # Retrieve secrets (format: folder/secret_title)
-    secrets_list: "CSilva-Shared/APISecret"
+    secrets_list: "SECRETS_FOLDER/SECRET_NAME"
     got_secrets: "{{ lookup('beyondtrust.secrets_safe.secrets_safe_lookup',
         api_url=api_url,
         api_version='3.1',
