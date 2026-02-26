@@ -1,0 +1,40 @@
+---
+- name: Retrieve secrets from BeyondTrust Secrets Safe
+  hosts: localhost
+  connection: local
+  vars:
+    api_url: "{{ lookup('ansible.builtin.env', 'PASSWORD_SAFE_API_URL') }}"
+    client_id: "{{ lookup('ansible.builtin.env', 'PASSWORD_SAFE_CLIENT_ID') }}"
+    client_secret: "{{ lookup('ansible.builtin.env', 'PASSWORD_SAFE_CLIENT_SECRET') }}"
+
+    # Retrieve managed accounts (format: system_name/account_name)
+    managed_accounts_to_get: "Ansible/ansible_password01"
+    got_managed_accounts: "{{ lookup('beyondtrust.secrets_safe.secrets_safe_lookup',
+        api_url=api_url,
+        retrieval_type='MANAGED_ACCOUNT',
+        client_id=client_id,
+        client_secret=client_secret,
+        secret_list=managed_accounts_to_get,
+        wantlist=False) }}"
+
+    # Retrieve secrets (format: folder/secret_title)
+    secrets_list: "CSilva-Shared/APISecret"
+    got_secrets: "{{ lookup('beyondtrust.secrets_safe.secrets_safe_lookup',
+        api_url=api_url,
+        api_version='3.1',
+        retrieval_type='SECRET',
+        client_id=client_id,
+        client_secret=client_secret,
+        secret_list=secrets_list,
+        verify_ca=True,
+        decrypt=True,
+        wantlist=False) }}"
+
+  tasks:
+    - name: Display retrieved managed accounts
+      ansible.builtin.debug:
+        msg: "{{ got_managed_accounts }}"
+
+    - name: Display retrieved secrets
+      ansible.builtin.debug:
+        msg: "{{ got_secrets }}"
