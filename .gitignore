@@ -1,0 +1,16 @@
+# Logs
+*.log
+
+# Secrets and credentials
+*.env
+.env*
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+credentials.*
+secrets.*
+
+# Ansible
+*.retry
